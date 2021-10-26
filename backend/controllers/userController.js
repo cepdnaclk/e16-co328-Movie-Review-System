@@ -59,14 +59,18 @@ export const getUserbyId = async (req, res) => {
   
 };
 
-export const deleteUserbyId = (req, res) => { 
-    
-    console.log(`DELETE : deleteUserbyId`);
-    const Id = req.params.id;
-    
-    // TODO: Delete from DB
+export const deleteUserbyId = async (req, res) => {
 
-    res.send(`deleteUserbyId: ${Id} - Not implemented `)
+    console.log(`DELETE : deleteUserbyId`);
+    
+    const {id} = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(id)){
+        return res.status(404).json({message: `No user with id: ${id}`});
+    }
+    
+    const deleteduser = await User.findByIdAndRemove(id); 
+    res.status(200).json({ message: "User deleted successfully", deleteduser })
 };
 
 export const updateUserbyId =  (req,res) => {
