@@ -1,5 +1,5 @@
-import { v4 as uuid } from 'uuid';
 import User from '../models/userModel.js';
+import mongoose from 'mongoose';
 
 
 export const getAllUsers = async (req, res) => {
@@ -14,15 +14,31 @@ export const getAllUsers = async (req, res) => {
     }
 }
 
-export const createUser = (req, res) => {   
-    
-    console.log(`POST : createUser`);
-    const user = req.body;
-    const userId = uuid();
-    
-    // TODO: POST user to DB
+export const createUser = async (req, res) => {
 
-    res.send(`createUser - Not implemented`)
+    console.log(`POST : createUser`);
+
+    const { firstName, lastName, email, role, joinDate, password } = req.body;
+
+    const newUser = new User({ 
+        _id : new mongoose.Types.ObjectId(),
+        firstName, 
+        lastName, 
+        email, 
+        role, 
+        joinDate, 
+        password 
+    });
+
+    try {
+
+        await newUser.save();
+        res.status(201).json(newUser);
+
+    } catch (error) {
+
+        res.status(409).json({ message: error.message });
+    }
 };
 
 export const getUserbyId = (req, res) => {
