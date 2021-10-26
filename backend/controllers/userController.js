@@ -73,12 +73,29 @@ export const deleteUserbyId = async (req, res) => {
     res.status(200).json({ message: "User deleted successfully", deleteduser })
 };
 
-export const updateUserbyId =  (req,res) => {
-    
-    console.log(`PATCH : deleteUserbyId`);
-    const Id = req.params.id;
-    
-    // TODO: validate req.body and Update user
+export const updateUserbyId = async (req, res) => {
 
-    res.send(`updateUserbyId: ${Id} - Not implemented `)
+    console.log(`PATCH : UpdateUserbyId`);
+    
+    const {id} = req.params;
+    const { firstName, lastName, email, role, joinDate, password } = req.body;
+
+    if (!mongoose.Types.ObjectId.isValid(id)){
+        return res.status(404).json({message: `No user with id: ${id}`});
+    }
+
+    const updatedUser = {
+        _id: id,
+        firstName, 
+        lastName, 
+        email, 
+        role, 
+        joinDate, 
+        password
+    }
+    
+    const updateduser = await User.findByIdAndUpdate(id, updatedUser, {new: true})
+    
+    res.status(200).json(updateduser)
+    
 };
