@@ -1,11 +1,17 @@
 import { v4 as uuid } from 'uuid';
+import User from '../models/userModel.js';
 
-export const getAllUsers = (req, res) => {
+
+export const getAllUsers = async (req, res) => {
     console.log(`GET : getAllUsers`);
     
-    // TODO: GET users from DB
-    
-    res.send(`getAllUsers - Not implemented`);
+    try {
+        const user = await User.find();
+        res.status(200).json(user);
+
+    } catch (error) {
+        res.status(404).json({ message: error.message });
+    }
 }
 
 export const createUser = (req, res) => {   
