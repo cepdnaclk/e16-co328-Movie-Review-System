@@ -41,14 +41,22 @@ export const createUser = async (req, res) => {
     }
 };
 
-export const getUserbyId = (req, res) => {
-    
+export const getUserbyId = async (req, res) => {
+
     console.log(`GET : getUserbyId`);
-    const Id = req.params.id;
+    
+    const {id} = req.params;
+   
+    try {
+        
+        const user = await User.findById(id);
+        res.status(200).json(user);
 
-    // TODO: Find by Id from DB
-
-    res.send(`getUserbyId: ${Id} - Not implemented `)
+    } catch (error) {
+        
+        res.status(404).json({message: error.message})
+    }
+  
 };
 
 export const deleteUserbyId = (req, res) => { 
