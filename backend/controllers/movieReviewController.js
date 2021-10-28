@@ -68,9 +68,9 @@ export const deleteReviewbyId = async (req, res) => {
 export const updateReviewbyId = async (req, res) => {
   console.log(`PATCH: updateReviewbyId`);
 
-  const { id: authorId, movieId, reviewId } = req.params;
+  const { id: authorId, reviewId } = req.params;
 
-  const { content, rating, createDate } = req.body;
+  const { movieId, content, rating, createDate } = req.body;
 
   if (!mongoose.Types.ObjectId.isValid(reviewId)) {
     return res.status(404).json({ message: `No review with id: ${reviewId}` });

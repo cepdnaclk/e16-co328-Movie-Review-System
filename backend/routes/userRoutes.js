@@ -23,6 +23,6 @@ router.patch("/:id", updateUserbyId);
 
 router.get("/:id/reviews", getReviewbyUserId);
 router.delete("/:id/:reviewId", deleteReviewbyId);
-router.patch("/:id/:movieId/:reviewId", updateReviewbyId);
+router.patch("/:id/:reviewId", updateReviewbyId);
 
 export default router;
