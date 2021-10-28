@@ -38,13 +38,25 @@ export const getReviewbyMovieId = async (req, res) => {
   }
 };
 
-export const getReviewbyUserId = async (req, res) => {
-  console.log(`GET: getReviewbyUserId`);
+export const getAllReviewbyUserId = async (req, res) => {
+  console.log(`GET: getAllReviewbyUserId`);
 
   const { id } = req.params;
   try {
     const movieReviews = await MovieReview.find({ authorId: id });
     res.status(200).json(movieReviews);
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+};
+
+export const getReviewbyUserId = async (req, res) => {
+  console.log(`GET: getReviewbyUserId`);
+
+  const { id, reviewId } = req.params;
+  try {
+    const movieReview = await MovieReview.find({ _id: reviewId, authorId: id });
+    res.status(200).json(movieReview);
   } catch (error) {
     res.status(404).json({ message: error.message });
   }
