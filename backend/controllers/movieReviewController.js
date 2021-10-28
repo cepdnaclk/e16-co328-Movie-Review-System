@@ -50,4 +50,17 @@ export const getReviewbyUserId = async (req, res) => {
   }
 };
 
+export const deleteReviewbyId = async (req, res) => {
+  console.log(`DELETE: deleteReviewbyId`);
 
+  const { reviewId } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(reviewId)) {
+    return res.status(404).json({ message: `No review with id: ${reviewId}` });
+  }
+
+  const deletedReview = await MovieReview.findByIdAndRemove(reviewId);
+  res
+    .status(200)
+    .json({ message: "Review deleted successfully", deletedReview });
+};

@@ -6,7 +6,10 @@ import {
   deleteUserbyId,
   updateUserbyId,
 } from "../controllers/userController.js";
-import { getReviewbyUserId } from "../controllers/movieReviewController.js";
+import {
+  getReviewbyUserId,
+  deleteReviewbyId,
+} from "../controllers/movieReviewController.js";
 
 const router = express.Router();
 
@@ -18,5 +21,6 @@ router.delete("/:id", deleteUserbyId);
 router.patch("/:id", updateUserbyId);
 
 router.get("/:id/reviews", getReviewbyUserId);
+router.delete("/:id/:reviewId", deleteReviewbyId);
 
 export default router;
