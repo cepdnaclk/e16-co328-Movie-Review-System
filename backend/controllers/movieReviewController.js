@@ -64,3 +64,34 @@ export const deleteReviewbyId = async (req, res) => {
     .status(200)
     .json({ message: "Review deleted successfully", deletedReview });
 };
+
+export const updateReviewbyId = async (req, res) => {
+  console.log(`PATCH: updateReviewbyId`);
+
+  const { id: authorId, movieId, reviewId } = req.params;
+
+  const { content, rating, createDate } = req.body;
+
+  if (!mongoose.Types.ObjectId.isValid(reviewId)) {
+    return res.status(404).json({ message: `No review with id: ${reviewId}` });
+  }
+
+  const updatedReview = {
+    _id: reviewId,
+    authorId,
+    movieId,
+    content,
+    rating,
+    createDate,
+  };
+
+  const reviewUpdated = await MovieReview.findByIdAndUpdate(
+    reviewId,
+    updatedReview,
+    {
+      new: true,
+    }
+  );
+
+  res.status(200).json(reviewUpdated);
+};

@@ -9,6 +9,7 @@ import {
 import {
   getReviewbyUserId,
   deleteReviewbyId,
+  updateReviewbyId,
 } from "../controllers/movieReviewController.js";
 
 const router = express.Router();
@@ -22,5 +23,6 @@ router.patch("/:id", updateUserbyId);
 
 router.get("/:id/reviews", getReviewbyUserId);
 router.delete("/:id/:reviewId", deleteReviewbyId);
+router.patch("/:id/:movieId/:reviewId", updateReviewbyId);
 
 export default router;
