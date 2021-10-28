@@ -2,7 +2,7 @@ import {React, useState, useEffect} from "react";
 import { makeStyles } from '@material-ui/core/styles';
 import{ Card, CircularProgress, Link, CardContent, CardMedia, Typography} from '@material-ui/core/';
 import Rating from '@material-ui/lab/Rating';
-import { MOVIES } from "../shared/movies";
+// import { MOVIES } from "../shared/movies";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -41,30 +41,31 @@ const useStyles = makeStyles((theme) => ({
     const [movies, setMovies] = useState(0);
 
     useEffect(() => {
-        fetch("https://popcritic.herokuapp.com/movies", {mode: 'no-cors'})
+        fetch("http://www.omdbapi.com/?s=har&apikey=ed0c7d3d&page=1")
         .then(response => {
             if(response.ok){
                 return response;
             }
         } )
-        .then(response => console.log(response))
-        .then(setMovies(MOVIES));
+        .then(response => (response.json()))
+        .then(response => response.Search) // since used search to fetch movies
+        .then((response) => setMovies(response));
       },[]) 
 
       return (
         <div className={classes.container}>
         <CircularProgress style={{ display: movies?"none":"block", margin: "20px auto" }} />
         { movies?movies.map(movie =>
-         <Card className={classes.card} key={movie.movie_id}>
-             <CardMedia className={classes.media} image={ "https://image.tmdb.org/t/p/w500" + movie.poster } title={ movie.title } />
+         <Card className={classes.card} key={movie.imdbID}>
+             <CardMedia className={classes.media} image={movie.Poster } title={ movie.Title } />
              <CardContent>
-               <Link href={ "/movie/" + movie.movie_id } color="inherit" style={{ textDecoration: "none" }}>
+               <Link href={ "/movie/" + movie.imdbID } color="inherit" style={{ textDecoration: "none" }}>
                <Typography gutterBottom variant="h5" component="h2">
-               { movie.title }
+               { movie.Title }
                </Typography>
                </Link>
                <Typography variant="body2" component="p" className={classes.plot}>
-               { movie.plot.slice(0,100) + "..." }
+               
                </Typography>
                <Rating readOnly value={5} />
              </CardContent>
