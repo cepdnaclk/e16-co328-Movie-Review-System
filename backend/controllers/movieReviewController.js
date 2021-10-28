@@ -27,7 +27,7 @@ export const createReview = async (req, res) => {
 };
 
 export const getAllReviewbyMovieId = async (req, res) => {
-  console.log(`GET: getReviewbyMovieId`);
+  console.log(`GET: getAllReviewbyMovieId`);
 
   const { movieId: id } = req.params;
   try {
