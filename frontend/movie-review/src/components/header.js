@@ -90,7 +90,7 @@ export default function SearchAppBar() {
     const [value, setValue] = useState(0);
 
     function search(e) {
-        if (e.keyCode==13) window.location.href="/search/"+e.target.value
+        if (e.keyCode === 13) window.location.href="/search/"+value
       }
 
     return (

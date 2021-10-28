@@ -53,7 +53,7 @@ export default function PostReview() {
     return (
         <div>
             <Typography className={classes.heading}>Post Review</Typography>
-            <TextareaAutosize value={review}  onChange={ (e) => setReview(e.target.value)} maxLength={300} className={classes.reviewBox} boxShadow={3} rowsMin={6} placeholder="Write Your Review Here ..." />
+            <TextareaAutosize value={review}  onChange={ (e) => setReview(e.target.value)} maxLength={300} className={classes.reviewBox} boxshadow = {3} minRows={6} placeholder="Write Your Review Here ..." />
             <Rating button value={rating} onChange={ (e,rtg) => setRating(rtg) } className={classes.rating} />
             <Button className={classes.postButton} >Post Review</Button>
         </div>

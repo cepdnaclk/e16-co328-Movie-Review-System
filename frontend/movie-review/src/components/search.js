@@ -70,7 +70,7 @@ export default function Search() {
             <List component="nav" className={classes.list} aria-label="mailbox folders">
                 {movies ? movies.map(movie => (  
                         <ListItem key={movie.imdbID} button onClick={ () => window.location.href = "/movie/"+movie.imdbID }>
-                            <img src={movie.Poster ? (movie.Poster) : "https://via.placeholder.com/400x600"} className={classes.poster} />
+                            <img src={movie.Poster ? (movie.Poster) : "https://via.placeholder.com/400x600"} alt = {movie.Title} className={classes.poster} />
                             <Typography className={classes.title}>{movie.Title}</Typography>
                             <Typography className={classes.date}>({movie.Year ? movie.Year : ""})</Typography>
                         </ListItem>   

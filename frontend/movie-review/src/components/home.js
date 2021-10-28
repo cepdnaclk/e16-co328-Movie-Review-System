@@ -33,6 +33,9 @@ const useStyles = makeStyles((theme) => ({
       marginTop: 10,
       marginBottom: 15,
       
+    },
+    title: {
+        color: '#AEB5BF',
     }
   }));
 
@@ -60,14 +63,14 @@ const useStyles = makeStyles((theme) => ({
              <CardMedia className={classes.media} image={movie.Poster } title={ movie.Title } />
              <CardContent>
                <Link href={ "/movie/" + movie.imdbID } color="inherit" style={{ textDecoration: "none" }}>
-               <Typography gutterBottom variant="h5" component="h2">
+               <Typography gutterBottom variant="h5" component="h2" className={classes.title}>
                { movie.Title }
                </Typography>
                </Link>
                <Typography variant="body2" component="p" className={classes.plot}>
                
                </Typography>
-               <Rating readOnly value={5} />
+               <Rating name = "readOnly" value={5} />
              </CardContent>
          </Card>
         ):""}
