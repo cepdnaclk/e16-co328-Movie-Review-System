@@ -1,5 +1,5 @@
-import React from 'react';
-import { alpha,makeStyles } from '@material-ui/core/styles';
+import {React, useState} from 'react';
+import { alpha, makeStyles } from '@material-ui/core/styles';
 import { AppBar, Toolbar, Button, InputBase, Typography } from '@material-ui/core/';
 import SearchIcon from '@material-ui/icons/Search';
 
@@ -13,6 +13,7 @@ const useStyle = makeStyles((theme) => ({
     },
     title: {
         flexGrow: 1,
+        color: "#45648C",
         display: 'none',
         fontSize: 25,
         fontWeight: "bolder",
@@ -26,6 +27,8 @@ const useStyle = makeStyles((theme) => ({
         [theme.breakpoints.down('sm')]: {
             padding: 5,
         },
+        background: "#164773",
+        color: '#AEB7BF'
     },
     search: {
         position: 'relative',
@@ -49,6 +52,7 @@ const useStyle = makeStyles((theme) => ({
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
+        color: "#AEB7BF"
     },
     inputRoot: {
         color: 'inherit',
@@ -83,13 +87,18 @@ const useStyle = makeStyles((theme) => ({
 
 export default function SearchAppBar() {
     const classes = useStyle();
+    const [value, setValue] = useState(0);
+
+    function search(e) {
+        if (e.keyCode==13) window.location.href="/search/"+e.target.value
+      }
 
     return (
         <div className={classes.header}>
             <AppBar position='static' className={classes.bar}>
                 <Toolbar>
                     <Typography className={classes.title} variant="h6" noWrap>
-                        MOVIE REVIEW 
+                        MOVIE REVIEW
                     </Typography>
                     <div className={classes.search}>
                         <div className={classes.searchicon}>
@@ -101,6 +110,8 @@ export default function SearchAppBar() {
                                 root: classes.inputRoot,
                                 input: classes.inputInput,
                             }}
+                            onChange={(e) => setValue(e.target.value)}
+                            onKeyDown={search}
                         />
                     </div>
                     <Button variant="contained" className={classes.login}>Log In</Button>
