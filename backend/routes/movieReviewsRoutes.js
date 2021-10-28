@@ -1,9 +1,13 @@
 import express from "express";
 
-import { createReview } from "../controllers/movieReviewController.js";
+import {
+  createReview,
+  getReviewbyMovieId,
+} from "../controllers/movieReviewController.js";
 
 const router = express.Router();
 
 router.post("/:movieId", createReview);
+router.get("/:movieId", getReviewbyMovieId);
 
 export default router;
