@@ -4,7 +4,7 @@ import {
   createReview,
   deleteReviewbyId,
   getAllReviewbyUserId,
-  getReviewbyMovieId,
+  getAllReviewbyMovieId,
   getReviewbyUserId,
   updateReviewbyId,
 } from "../controllers/movieReviewController.js";
@@ -12,9 +12,9 @@ import {
 const router = express.Router();
 
 router.post("/:movieId", createReview);
-router.get("/:movieId", getReviewbyMovieId);
+router.get("/:movieId", getAllReviewbyMovieId);
 
-router.get("/:userId", getAllReviewbyUserId);
+router.get("/:userId/list", getAllReviewbyUserId);
 router.get("/:userId/:reviewId", getReviewbyUserId);
 router.delete("/:userId/:reviewId", deleteReviewbyId);
 router.patch("/:userId/:reviewId", updateReviewbyId);

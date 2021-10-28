@@ -26,7 +26,7 @@ export const createReview = async (req, res) => {
   console.log(newReview);
 };
 
-export const getReviewbyMovieId = async (req, res) => {
+export const getAllReviewbyMovieId = async (req, res) => {
   console.log(`GET: getReviewbyMovieId`);
 
   const { movieId: id } = req.params;
@@ -41,9 +41,9 @@ export const getReviewbyMovieId = async (req, res) => {
 export const getAllReviewbyUserId = async (req, res) => {
   console.log(`GET: getAllReviewbyUserId`);
 
-  const { id } = req.params;
+  const { userId } = req.params;
   try {
-    const movieReviews = await MovieReview.find({ authorId: id });
+    const movieReviews = await MovieReview.find({ authorId: userId });
     res.status(200).json(movieReviews);
   } catch (error) {
     res.status(404).json({ message: error.message });
@@ -53,9 +53,12 @@ export const getAllReviewbyUserId = async (req, res) => {
 export const getReviewbyUserId = async (req, res) => {
   console.log(`GET: getReviewbyUserId`);
 
-  const { id, reviewId } = req.params;
+  const { userId, reviewId } = req.params;
   try {
-    const movieReview = await MovieReview.find({ _id: reviewId, authorId: id });
+    const movieReview = await MovieReview.find({
+      _id: reviewId,
+      authorId: userId,
+    });
     res.status(200).json(movieReview);
   } catch (error) {
     res.status(404).json({ message: error.message });
@@ -80,7 +83,7 @@ export const deleteReviewbyId = async (req, res) => {
 export const updateReviewbyId = async (req, res) => {
   console.log(`PATCH: updateReviewbyId`);
 
-  const { id: authorId, reviewId } = req.params;
+  const { userId: authorId, reviewId } = req.params;
 
   const { movieId, content, rating, createDate } = req.body;
 
