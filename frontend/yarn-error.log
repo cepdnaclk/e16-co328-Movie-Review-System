@@ -1,0 +1,36 @@
+Arguments: 
+  C:\Program Files\nodejs\node.exe C:\Users\acer\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add @mui/material-ui/icons
+
+PATH: 
+  E:\software\VMWare\VMware Player\bin\;C:\Program Files (x86)\Intel\iCLS Client\;C:\Program Files\Intel\iCLS Client\;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\TDM-GCC-64\bin;C:\iverilog\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Java\jdk-13.0.2\bin;C:\Program Files (x86)\MATLAB\MATLAB Production Server\R2015a\runtime\win32;C:\Program Files (x86)\MATLAB\MATLAB Production Server\R2015a\bin;C:\Program Files (x86)\MATLAB\MATLAB Production Server\R2015a\polyspace\bin;C:\Program Files\Git\cmd;C:\Program Files\nodejs\;E:\software\ffmpeg-2021-02-07-git-a52b9464e4-full_build\bin;E:\software\bin;C:\ProgramData\chocolatey\bin;C:\Program Files (x86)\National Instruments\Shared\LabVIEW CLI;C:\Users\acer\AppData\Roaming\npm\;C:\Users\acer\AppData\Roaming\npm;C:\Program Files\nodejs;E:\software\VMWare\VMware Player\bin\;C:\Program Files (x86)\Intel\iCLS Client\;C:\Program Files\Intel\iCLS Client\;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\TDM-GCC-64\bin;C:\iverilog\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Java\jdk-13.0.2\bin;C:\Program Files (x86)\MATLAB\MATLAB Production Server\R2015a\runtime\win32;C:\Program Files (x86)\MATLAB\MATLAB Production Server\R2015a\bin;C:\Program Files (x86)\MATLAB\MATLAB Production Server\R2015a\polyspace\bin;C:\Program Files\Git\cmd;C:\Program Files\nodejs\;E:\software\ffmpeg-2021-02-07-git-a52b9464e4-full_build\bin;E:\software\bin;C:\ProgramData\chocolatey\bin;C:\Program Files (x86)\National Instruments\Shared\LabVIEW CLI;C:\Users\acer\AppData\Roaming\npm\;C:\Users\acer\AppData\Roaming\npm;;E:\software\Python;;C:\Users\acer\AppData\Local\Programs\Microsoft VS Code\bin
+
+Yarn version: 
+  1.22.11
+
+Node version: 
+  14.15.4
+
+Platform: 
+  win32 x64
+
+Trace: 
+  Error: https://registry.yarnpkg.com/@mui%2fmaterial-ui/icons: Request "https://registry.yarnpkg.com/@mui%2fmaterial-ui/icons" returned a 405
+      at Request.params.callback [as _callback] (C:\Users\acer\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:67001:18)
+      at Request.self.callback (C:\Users\acer\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:140763:22)
+      at Request.emit (events.js:315:20)
+      at Request.<anonymous> (C:\Users\acer\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:141735:10)
+      at Request.emit (events.js:315:20)
+      at IncomingMessage.<anonymous> (C:\Users\acer\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:141657:12)
+      at Object.onceWrapper (events.js:421:28)
+      at IncomingMessage.emit (events.js:327:22)
+      at endReadableNT (internal/streams/readable.js:1327:12)
+      at processTicksAndRejections (internal/process/task_queues.js:80:21)
+
+npm manifest: 
+  No manifest
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
