@@ -10,7 +10,7 @@ import castReviewRoutes from "./routes/castReviewsRoutes.js";
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5000;
 const CONNECTION_URL = process.env.MONGO_ATLAS_URI;
 
 app.use(express.json());
@@ -30,3 +30,4 @@ mongoose
   .catch((error) => console.log(`${error} did not connect`));
 
 export { app };
+ 

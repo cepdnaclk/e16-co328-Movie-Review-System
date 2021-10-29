@@ -1,7 +1,11 @@
 import express from "express";
+
+import auth from "../middleware/auth.js";
+
 import {
   getAllUsers,
-  createUser,
+  signin,
+  signup,
   getUserbyId,
   deleteUserbyId,
   updateUserbyId,
@@ -9,11 +13,13 @@ import {
 
 const router = express.Router();
 
-router.get("/", getAllUsers);
-router.post("/", createUser);
+router.get("/", auth, getAllUsers);
 
-router.get("/:id", getUserbyId);
-router.delete("/:id", deleteUserbyId);
-router.patch("/:id", updateUserbyId);
+router.post("/signin", signin);
+router.post("/signup", signup);
+
+router.get("/:id", auth, getUserbyId);
+router.delete("/:id", auth, deleteUserbyId);
+router.patch("/:id", auth, updateUserbyId);
 
 export default router;
