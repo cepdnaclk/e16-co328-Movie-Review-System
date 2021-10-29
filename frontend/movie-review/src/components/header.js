@@ -3,6 +3,7 @@ import { alpha, makeStyles } from '@material-ui/core/styles';
 import { AppBar, Toolbar, Button, InputBase, Typography, Link } from '@material-ui/core/';
 import SearchIcon from '@material-ui/icons/Search';
 
+
 const useStyle = makeStyles((theme) => ({
 
     header: {
@@ -59,7 +60,7 @@ const useStyle = makeStyles((theme) => ({
     },
     avatar: {
         marginRight: 20,
-        border: "2px solid white"
+        background: "#164773",
     },
     user: {
         margin: 25
@@ -98,9 +99,13 @@ export default function SearchAppBar() {
         <div className={classes.header}>
             <AppBar position='static' className={classes.bar}>
                 <Toolbar>
+                
                     <Typography className={classes.title} variant="h6" noWrap>
-                        MOVIE REVIEW
+                        Movie Review
                     </Typography>
+                    <Link href="/">
+                        <Button variant="contained" className={classes.login} >Home</Button>
+                    </Link>
                     <div className={classes.search}>
                         <div className={classes.searchicon}>
                             <SearchIcon />
@@ -116,7 +121,7 @@ export default function SearchAppBar() {
                         />
                     </div>
                     <Link href="/signup">
-                    <Button variant="contained" className={classes.login} >Log In</Button>
+                        <Button variant="contained" className={classes.login} >Log In</Button>
                     </Link>
                 </Toolbar>
             </AppBar>

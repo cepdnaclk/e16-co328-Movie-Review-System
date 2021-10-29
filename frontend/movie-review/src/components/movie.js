@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { makeStyles } from '@material-ui/core/styles';
-import { Typography, Box, Breadcrumbs, Link} from "@material-ui/core";
+import { Typography, Box} from "@material-ui/core";
 import PostReview from "./postReview";
 
 const useStyles = makeStyles((theme) => ({
@@ -77,12 +77,6 @@ export default function Movie() {
     return (
         console.log({ movie }),
         <div className={classes.container}>
-            <Breadcrumbs className={classes.breadcrumb} aria-label="breadcrumb">
-                <Link underline="hover"  className={classes.breadcrumb} href="/">
-                    Home
-                </Link>
-                <Typography >Movie</Typography>
-            </Breadcrumbs>
             <Box display="flex" className={classes.box} justifyContent="flex-start">
                 <Box p={1}>
                     <img className={classes.poster} src={movie ? (movie.Poster) : "https://via.placeholder.com/400x600"} alt={movie.Title} />
