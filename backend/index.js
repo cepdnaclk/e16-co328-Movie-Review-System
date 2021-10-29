@@ -4,7 +4,8 @@ import cors from "cors";
 import mongoose from "mongoose";
 
 import userRoutes from "./routes/userRoutes.js";
-import reviewRoutes from "./routes/movieReviewsRoutes.js";
+import movieReviewRoutes from "./routes/movieReviewsRoutes.js";
+import castReviewRoutes from "./routes/castReviewsRoutes.js";
 
 dotenv.config();
 
@@ -16,8 +17,8 @@ app.use(express.json());
 app.use(cors());
 
 app.use("/users", userRoutes);
-app.use("/movie-review", reviewRoutes);
-app.use("/cast-review", reviewRoutes);
+app.use("/movie-review", movieReviewRoutes);
+app.use("/cast-review", castReviewRoutes);
 app.get("/", (req, res) => res.send("Welcome to the Movie-Review API!"));
 app.all("*", (req, res) => res.send("Route doesn't exist."));
 
