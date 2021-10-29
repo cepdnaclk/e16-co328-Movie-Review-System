@@ -1,6 +1,6 @@
-import {React, useState} from 'react';
+import { React, useState } from 'react';
 import { alpha, makeStyles } from '@material-ui/core/styles';
-import { AppBar, Toolbar, Button, InputBase, Typography } from '@material-ui/core/';
+import { AppBar, Toolbar, Button, InputBase, Typography, Link } from '@material-ui/core/';
 import SearchIcon from '@material-ui/icons/Search';
 
 const useStyle = makeStyles((theme) => ({
@@ -90,8 +90,9 @@ export default function SearchAppBar() {
     const [value, setValue] = useState(0);
 
     function search(e) {
-        if (e.keyCode === 13) window.location.href="/search/"+value
-      }
+        if (e.keyCode === 13) window.location.href = "/search/" + value
+    }
+
 
     return (
         <div className={classes.header}>
@@ -114,11 +115,16 @@ export default function SearchAppBar() {
                             onKeyDown={search}
                         />
                     </div>
-                    <Button variant="contained" className={classes.login}>Log In</Button>
+                    <Link href="/login">
+                    <Button variant="contained" className={classes.login} >Log In</Button>
+                    </Link>
                 </Toolbar>
             </AppBar>
-
         </div>
+
+
+
+
     );
 
 }
