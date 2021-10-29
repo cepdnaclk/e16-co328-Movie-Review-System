@@ -115,7 +115,7 @@ export default function SearchAppBar() {
                             onKeyDown={search}
                         />
                     </div>
-                    <Link href="/login">
+                    <Link href="/signup">
                     <Button variant="contained" className={classes.login} >Log In</Button>
                     </Link>
                 </Toolbar>

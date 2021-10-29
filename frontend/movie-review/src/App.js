@@ -4,7 +4,8 @@ import SearchAppBar from './components/header';
 import Home from './components/home';
 import Movie from "./components/movie";
 import Search from "./components/search";
-import Login from "./components/login";
+import Signup from "./components/signup";
+import Signin from "./components/signin";
 
 function App() {
 
@@ -26,8 +27,12 @@ function App() {
             <Search />
           </Route>
 
-          <Route path="/login">
-            <Login />
+          <Route path="/signup">
+            <Signup />
+          </Route>
+
+          <Route path="/signin">
+            <Signin />
           </Route>
 
         </Switch>

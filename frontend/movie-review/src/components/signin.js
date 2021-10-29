@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { Avatar, Button, TextField, Link, Grid, Box, Typography, Container, CssBaseline, } from '@material-ui/core';
+import { Avatar, Button, TextField, Grid, Box, Typography, Container, CssBaseline, } from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { makeStyles } from '@material-ui/core/styles';
-import { baseUrl } from '../shared/baseUrl';
+//import { baseUrl } from '../shared/baseUrl';
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-export default function Login() {
+export default function Signin() {
 
     const classes = useStyles();
 
@@ -25,32 +25,16 @@ export default function Login() {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
         // eslint-disable-next-line no-console
-        const newUser = {
+        const User = {
             firstName: data.get('firstName'),
             lastName: data.get('lastName'),
             email: data.get('email'),
             password: data.get('password'),
 
         }
-        console.log(JSON.stringify(newUser));
-        
-        fetch(baseUrl + "users", {
-            method: "POST",
-            body: JSON.stringify(newUser),
-            headers: {
-                "Content-Type": "application/json"
-            },
-            
-        })
-        .then(response => {
-            if(response.ok){
-                return response;
-            }
-        })
-        .then(response => response.json())
-        .then(alert("Success fully Registered! "))
-        .then(window.location.href="/signin")
-        
+        console.log(JSON.stringify(User));
+
+
 
     };
 
@@ -60,41 +44,21 @@ export default function Login() {
             <CssBaseline />
             <Box
                 sx={{
-                    marginTop: 8,
+                    marginTop: 140,
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'center',
+                    paddingBottom: 30,
                 }}
             >
                 <Avatar className={classes.avatar}>
                     <LockOutlinedIcon />
                 </Avatar>
                 <Typography component="h1" variant="h5">
-                    Sign up
+                    Sign In
                 </Typography>
                 <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
                     <Grid container spacing={5}>
-                        <Grid item xs={12} sm={6}>
-                            <TextField
-                                autoComplete="given-name"
-                                name="firstName"
-                                required
-                                fullWidth
-                                id="firstName"
-                                label="First Name"
-                                autoFocus
-                            />
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                            <TextField
-                                required
-                                fullWidth
-                                id="lastName"
-                                label="Last Name"
-                                name="lastName"
-                                autoComplete="family-name"
-                            />
-                        </Grid>
                         <Grid item xs={12}>
                             <TextField
                                 required
@@ -123,15 +87,8 @@ export default function Login() {
                                 variant="contained"
                                 sx={{ mt: 10, mb: 10 }}
                             >
-                                Sign Up
+                                Sign In
                             </Button>
-                        </Grid>
-                    </Grid>
-                    <Grid container spacing={3} justifyContent="flex-end">
-                        <Grid item sx={{ mt: 10, mb: 2 }}>
-                            <Link href="/signin" variant="body2" >
-                                Already have an account? Sign in
-                            </Link>
                         </Grid>
                     </Grid>
                 </Box>
