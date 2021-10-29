@@ -6,6 +6,7 @@ import Movie from "./components/movie";
 import Search from "./components/search";
 import Signup from "./components/signup";
 import Signin from "./components/signin";
+import People from "./components/people";
 
 function App() {
 
@@ -33,6 +34,10 @@ function App() {
 
           <Route path="/signin">
             <Signin />
+          </Route>
+
+          <Route path="/people/:query">
+            <People />
           </Route>
 
         </Switch>
