@@ -44,14 +44,14 @@ const useStyles = makeStyles((theme) => ({
     const [movies, setMovies] = useState(0);
 
     useEffect(() => {
-        fetch("http://www.omdbapi.com/?s=har&apikey=ed0c7d3d&page=1")
+        fetch("https://api.themoviedb.org/3/movie/popular?api_key=bb78e4cf3442e302d928f2c5edcdbee1")
         .then(response => {
             if(response.ok){
                 return response;
             }
         } )
         .then(response => (response.json()))
-        .then(response => response.Search) // since used search to fetch movies
+        .then(response => response.results) // since used search to fetch movies
         .then((response) => setMovies(response));
       },[]) 
 
@@ -59,16 +59,16 @@ const useStyles = makeStyles((theme) => ({
         <div className={classes.container}>
         <CircularProgress style={{ display: movies?"none":"block", margin: "20px auto" }} />
         { movies?movies.map(movie =>
-         <Card className={classes.card} key={movie.imdbID}>
-             <CardMedia className={classes.media} image={movie.Poster } title={ movie.Title } />
+         <Card className={classes.card} key={movie.id}>
+             <CardMedia className={classes.media} image={"https://image.tmdb.org/t/p/w500"+movie.poster_path } title={ movie.title } />
              <CardContent>
-               <Link href={ "/movie/" + movie.imdbID } color="inherit" style={{ textDecoration: "none" }}>
+               <Link href={ "/movie/" + movie.id } color="inherit" style={{ textDecoration: "none" }}>
                <Typography gutterBottom variant="h5" component="h2" className={classes.title}>
-               { movie.Title }
+               { movie.title }
                </Typography>
                </Link>
                <Typography variant="body2" component="p" className={classes.plot}>
-               
+               {movie.overview.slice(0,100) + "..." }
                </Typography>
                <Rating name = "readOnly" value={5} readOnly/>
              </CardContent>
