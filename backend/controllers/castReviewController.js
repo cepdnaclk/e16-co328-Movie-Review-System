@@ -36,3 +36,15 @@ export const getAllCastReviewbyPersonId = async (req, res) => {
     res.status(404).json({ message: error.message });
   }
 };
+
+export const getAllCastReviewbyUserId = async (req, res) => {
+  console.log(`GET: getAllCastReviewbyUserId`);
+
+  const { userId } = req.params;
+  try {
+    const castReviews = await CastReview.find({ authorId: userId });
+    res.status(200).json(castReviews);
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+};
