@@ -10,7 +10,7 @@ const movieReviewSchema = mongoose.Schema({
     required: true,
   },
   movieId: {
-    type: Number,
+    type: String,
     required: true,
   },
   content: {
