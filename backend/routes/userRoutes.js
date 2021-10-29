@@ -1,5 +1,7 @@
 import express from "express";
 
+import auth from "../middleware/auth.js";
+
 import {
   getAllUsers,
   signin,
@@ -11,13 +13,13 @@ import {
 
 const router = express.Router();
 
-router.get("/", getAllUsers);
+router.get("/", auth, getAllUsers);
 
 router.post("/signin", signin);
 router.post("/signup", signup);
 
-router.get("/:id", getUserbyId);
-router.delete("/:id", deleteUserbyId);
-router.patch("/:id", updateUserbyId);
+router.get("/:id", auth, getUserbyId);
+router.delete("/:id", auth, deleteUserbyId);
+router.patch("/:id", auth, updateUserbyId);
 
 export default router;

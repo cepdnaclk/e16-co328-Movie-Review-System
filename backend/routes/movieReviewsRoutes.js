@@ -1,5 +1,7 @@
 import express from "express";
 
+import auth from "../middleware/auth.js";
+
 import {
   createReview,
   deleteReviewbyId,
@@ -11,12 +13,12 @@ import {
 
 const router = express.Router();
 
-router.post("/:movieId", createReview);
-router.get("/:movieId", getAllReviewbyMovieId);
+router.post("/:movieId", auth, createReview);
+router.get("/:movieId", auth, getAllReviewbyMovieId);
 
-router.get("/:userId/list", getAllReviewbyUserId);
-router.get("/:userId/:reviewId", getReviewbyUserId);
-router.delete("/:userId/:reviewId", deleteReviewbyId);
-router.patch("/:userId/:reviewId", updateReviewbyId);
+router.get("/:userId/list", auth, getAllReviewbyUserId);
+router.get("/:userId/:reviewId", auth, getReviewbyUserId);
+router.delete("/:userId/:reviewId", auth, deleteReviewbyId);
+router.patch("/:userId/:reviewId", auth, updateReviewbyId);
 
 export default router;
