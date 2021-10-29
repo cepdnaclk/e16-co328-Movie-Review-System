@@ -1,7 +1,10 @@
 import mongoose from 'mongoose';
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 
 import User from '../models/userModel.js';
+
+const jwtSecret = `${process.env.JWT_SECRET}`;
 
 export const getAllUsers = async (req, res) => {
     console.log(`GET : getAllUsers`);
@@ -14,6 +17,42 @@ export const getAllUsers = async (req, res) => {
         res.status(404).json({ message: error.message });
     }
 }
+
+export const signin = async (req, res) => {
+    console.log(`POST : signin`);
+
+    const { email, password } = req.body;
+
+    try {
+        const foundUser = await User.findOne({ email });
+
+        if (!foundUser) {
+            return res.status(404).json({ message: "User doesn't exist" });
+        }
+
+        const isPasswordCorrect = await bcrypt.compare(password, foundUser.password);
+
+        if (!isPasswordCorrect) {
+            return res.status(400).json({ message: "Inavalid credentials" });
+        }
+
+        const token = jwt.sign({
+            id: foundUser._id,
+            email: foundUser.email,
+        },
+            jwtSecret,
+            {
+                expiresIn: "1h"
+            }
+        );
+
+        res.status(200).json({result: foundUser, token});
+
+    } catch (error) {
+        console.log(`${error}`)
+        res.status(500).json({message: "Something went wrong"});
+    }
+};
 
 export const signup = async (req, res) => {
 
@@ -63,7 +102,7 @@ export const getUserbyId = async (req, res) => {
 
     } catch (error) {
 
-        res.status(404).json({ message: error.message })
+        res.status(404).json({ message: error.message });
     }
 
 };
@@ -79,7 +118,7 @@ export const deleteUserbyId = async (req, res) => {
     }
 
     const deleteduser = await User.findByIdAndRemove(id);
-    res.status(200).json({ message: "User deleted successfully", deleteduser })
+    res.status(200).json({ message: "User deleted successfully", deleteduser });
 };
 
 export const updateUserbyId = async (req, res) => {
@@ -101,10 +140,10 @@ export const updateUserbyId = async (req, res) => {
         role,
         joinDate,
         password
-    }
+    };
 
-    const updateduser = await User.findByIdAndUpdate(id, updatedUser, { new: true })
+    const updateduser = await User.findByIdAndUpdate(id, updatedUser, { new: true });
 
-    res.status(200).json(updateduser)
+    res.status(200).json(updateduser);
 
 };
