@@ -17,6 +17,7 @@ app.use(cors());
 
 app.use("/users", userRoutes);
 app.use("/movie-review", reviewRoutes);
+app.use("/cast-review", reviewRoutes);
 app.get("/", (req, res) => res.send("Welcome to the Movie-Review API!"));
 app.all("*", (req, res) => res.send("Route doesn't exist."));
 
