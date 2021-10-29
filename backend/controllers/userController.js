@@ -9,6 +9,10 @@ const jwtSecret = `${process.env.JWT_SECRET}`;
 export const getAllUsers = async (req, res) => {
     console.log(`GET : getAllUsers`);
 
+    if (!req.userId) {
+        return res.json({ message: "Unauthenticated" });
+    }
+
     try {
         const user = await User.find();
         res.status(200).json(user);
@@ -93,6 +97,10 @@ export const getUserbyId = async (req, res) => {
 
     console.log(`GET : getUserbyId`);
 
+    if (!req.userId) {
+        return res.json({ message: "Unauthenticated" });
+    }
+
     const { id } = req.params;
 
     try {
@@ -111,14 +119,25 @@ export const deleteUserbyId = async (req, res) => {
 
     console.log(`DELETE : deleteUserbyId`);
 
+    if (!req.userId) {
+        return res.json({ message: "Unauthenticated" });
+    }
+
     const { id } = req.params;
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
         return res.status(404).json({ message: `No user with id: ${id}` });
     }
 
-    const deleteduser = await User.findByIdAndRemove(id);
-    res.status(200).json({ message: "User deleted successfully", deleteduser });
+    const deluser = await User.findById(id);
+    
+    if (deluser._id == req.userId) {
+        const deleteduser = await User.findByIdAndRemove(id);
+        res.status(200).json({ message: "User deleted successfully", deleteduser });
+    } else{
+        res.status(401).json({ message: "Cannot delete other accounts"});
+    }
+    
 };
 
 export const updateUserbyId = async (req, res) => {
