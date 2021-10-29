@@ -1,7 +1,8 @@
-import {React, useState} from 'react';
+import { React, useState } from 'react';
 import { alpha, makeStyles } from '@material-ui/core/styles';
-import { AppBar, Toolbar, Button, InputBase, Typography } from '@material-ui/core/';
+import { AppBar, Toolbar, Button, InputBase, Typography, Link } from '@material-ui/core/';
 import SearchIcon from '@material-ui/icons/Search';
+
 
 const useStyle = makeStyles((theme) => ({
 
@@ -13,7 +14,7 @@ const useStyle = makeStyles((theme) => ({
     },
     title: {
         flexGrow: 1,
-        color: "#D9CCB4",
+        color: "#AEB7BF",
         display: 'none',
         fontSize: 25,
         fontWeight: "bolder",
@@ -59,7 +60,7 @@ const useStyle = makeStyles((theme) => ({
     },
     avatar: {
         marginRight: 20,
-        border: "2px solid white"
+        background: "#164773",
     },
     user: {
         margin: 25
@@ -90,16 +91,21 @@ export default function SearchAppBar() {
     const [value, setValue] = useState(0);
 
     function search(e) {
-        if (e.keyCode === 13) window.location.href="/search/"+value
-      }
+        if (e.keyCode === 13) window.location.href = "/search/" + value
+    }
+
 
     return (
         <div className={classes.header}>
             <AppBar position='static' className={classes.bar}>
                 <Toolbar>
+                
                     <Typography className={classes.title} variant="h6" noWrap>
-                        MOVIE REVIEW
+                        Movie Review
                     </Typography>
+                    <Link href="/">
+                        <Button variant="contained" className={classes.login} >Home</Button>
+                    </Link>
                     <div className={classes.search}>
                         <div className={classes.searchicon}>
                             <SearchIcon />
@@ -114,11 +120,16 @@ export default function SearchAppBar() {
                             onKeyDown={search}
                         />
                     </div>
-                    <Button variant="contained" className={classes.login}>Log In</Button>
+                    <Link href="/signup">
+                        <Button variant="contained" className={classes.login} >Log In</Button>
+                    </Link>
                 </Toolbar>
             </AppBar>
-
         </div>
+
+
+
+
     );
 
 }

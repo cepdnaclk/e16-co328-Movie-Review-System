@@ -1,6 +1,6 @@
 import { React, useEffect, useState } from "react";
 import { makeStyles } from '@material-ui/core/styles';
-import{Typography, List, ListItem,Link, CircularProgress, Breadcrumbs} from '@material-ui/core';
+import{Typography, List, ListItem, CircularProgress} from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -51,28 +51,22 @@ export default function Search() {
     useEffect(() => {
         var query = window.location.pathname.substring(8);
         setQuery(decodeURIComponent(query));
-        fetch("http://www.omdbapi.com/?apikey=ed0c7d3d&s=" + query)
+        fetch("https://api.themoviedb.org/3/search/movie?api_key=bb78e4cf3442e302d928f2c5edcdbee1&language=en-US&page=1&query=" + query)
             .then(response => response.json())
-            .then(response => setMovies(response.Search));
+            .then(response => setMovies(response.results));
     }, [])
 
 
     return (
         <div className={classes.container}>
-            <Breadcrumbs className={classes.breadcrumb} aria-label="breadcrumb">
-                <Link underline="hover"  className={classes.breadcrumb} href="/">
-                    Home
-                </Link>
-                <Typography >Search Results</Typography>
-            </Breadcrumbs>
             <Typography className={classes.heading}>{"Search Results For " + query}</Typography>
             <CircularProgress style={{ display: movies ? "none" : "block", margin: "20px auto" }} />
             <List component="nav" className={classes.list} aria-label="mailbox folders">
                 {movies ? movies.map(movie => (  
-                        <ListItem key={movie.imdbID} button onClick={ () => window.location.href = "/movie/"+movie.imdbID }>
-                            <img src={movie.Poster ? (movie.Poster) : "https://via.placeholder.com/400x600"} alt = {movie.Title} className={classes.poster} />
-                            <Typography className={classes.title}>{movie.Title}</Typography>
-                            <Typography className={classes.date}>({movie.Year ? movie.Year : ""})</Typography>
+                        <ListItem key={movie.id} button onClick={ () => window.location.href = "/movie/"+movie.id }>
+                            <img src={movie.poster_path ? ("https://image.tmdb.org/t/p/w500"+movie.poster_path) : "https://via.placeholder.com/400x600"} alt = {movie.title} className={classes.poster} />
+                            <Typography className={classes.title}>{movie.title}</Typography>
+                            <Typography className={classes.date}>({movie.release_date ? movie.release_date.split("-")[0]  : ""})</Typography>
                         </ListItem>   
                 )) : ""}
             </List>

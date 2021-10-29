@@ -45,7 +45,33 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function PostReview() {
+function postReview(rating,review, type) {
+    var id = window.location.pathname.substring(7);
+    var newReview;
+    /*fetch("https://popcritic.herokuapp.com/"+type+"/"+id+"/reviews",{method: "POST", body: JSON.stringify({ rating, review }), headers: {'Content-Type': "application/json", token: window.localStorage.getItem("token")}}).then(x=>x.text()).then(function() {
+        window.location.reload();
+    }).catch(console.log); */
+    if(type === 'movie'){
+        newReview = {
+            movieId: id,
+            authorId:"17889c734aa50a7a7d34928",
+            content:review, 
+            rating:rating
+        }
+    }
+    else if (type === 'people'){
+        newReview = {
+            id: id,
+            authorId:"17889c734aa50a7a7d34928",
+            content:review, 
+            rating:rating
+        }
+    }
+    
+   alert(JSON.stringify(newReview));
+  }
+
+export default function PostReview(props) {
     const classes = useStyles();
     const [review, setReview] = useState(window.localStorage.getItem("review") || "");
     const [rating, setRating] = useState(5);
@@ -55,7 +81,7 @@ export default function PostReview() {
             <Typography className={classes.heading}>Post Review</Typography>
             <TextareaAutosize value={review}  onChange={ (e) => setReview(e.target.value)} maxLength={300} className={classes.reviewBox} boxshadow = {3} minRows={6} placeholder="Write Your Review Here ..." />
             <Rating button value={rating} onChange={ (e,rtg) => setRating(rtg) } className={classes.rating} />
-            <Button className={classes.postButton} >Post Review</Button>
+            <Button className={classes.postButton} onClick={ () => postReview(rating,review, props.type) }>Post Review</Button>
         </div>
     );
 }
