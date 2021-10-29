@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
     },
     media: {
       height: 375,
-      filter: "brightness(0.7)"
+      
     },
     plot: {
       letterSpacing: 2,
@@ -70,7 +70,7 @@ const useStyles = makeStyles((theme) => ({
                <Typography variant="body2" component="p" className={classes.plot}>
                
                </Typography>
-               <Rating name = "readOnly" value={5} />
+               <Rating name = "readOnly" value={5} readOnly/>
              </CardContent>
          </Card>
         ):""}
