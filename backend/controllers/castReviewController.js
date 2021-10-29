@@ -80,3 +80,36 @@ export const deleteCastReviewbyId = async (req, res) => {
     .status(200)
     .json({ message: "Cast Review deleted successfully", deletedCastReview });
 };
+
+export const updateCastReviewbyId = async (req, res) => {
+  console.log(`PATCH: updateCastReviewbyId`);
+
+  const { userId: authorId, reviewId } = req.params;
+
+  const { personId, content, rating, createDate } = req.body;
+
+  if (!mongoose.Types.ObjectId.isValid(reviewId)) {
+    return res
+      .status(404)
+      .json({ message: `No cast review with id: ${reviewId}` });
+  }
+
+  const updatedCastReview = {
+    _id: reviewId,
+    authorId,
+    personId,
+    content,
+    rating,
+    createDate,
+  };
+
+  const castReviewUpdated = await CastReview.findByIdAndUpdate(
+    reviewId,
+    updatedCastReview,
+    {
+      new: true,
+    }
+  );
+
+  res.status(200).json(castReviewUpdated);
+};
