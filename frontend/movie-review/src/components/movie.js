@@ -51,10 +51,6 @@ const useStyles = makeStyles((theme) => ({
             maxWidth: 60
         }
     },
-    breadcrumb: {
-        color: "#AEB7BF",
-        marginLeft: 10,
-    }
 }));
 
 function toDate(date) {
@@ -123,7 +119,6 @@ export default function Movie() {
 
             <Box display="flex" className={classes.box} justifyContent="flex-start">
                 <Box p={1}>
-
                     <PostReview type="movie" />
                     {/*  <Typography> post reviews and review list gose here</Typography>
                    <ReviewList type="movie" />*/}

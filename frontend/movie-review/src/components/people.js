@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
         color: "#AEB7BF",
         paddingTop: 10
     },
-    date: {
+    role: {
         color: "#AEB7BF"
     },
     plot: {
@@ -51,10 +51,6 @@ const useStyles = makeStyles((theme) => ({
             maxWidth: 60
         }
     },
-    breadcrumb: {
-        color: "#AEB7BF",
-        marginLeft: 10,
-    }
 }));
 
 export default function People() {
@@ -98,7 +94,7 @@ export default function People() {
                 </Box>
                 <Box p={1}>
                     <Typography variant="h3" gutterBottom className={classes.title}>{person ? person.name : ""}</Typography>
-                    <Typography variant="subtitle1" gutterBottom className={classes.date}> {person ? person.known_for_department: ""} </Typography>
+                    <Typography variant="subtitle1" gutterBottom className={classes.role}> {person ? person.known_for_department: ""} </Typography>
                     <Typography variant="subtitle1" gutterBottom className={classes.plot}>{person ? person.biography : ""}</Typography>
                 </Box>
             </Box>
@@ -115,7 +111,7 @@ export default function People() {
             <Box display="flex" className={classes.box} justifyContent="flex-start">
                 <Box p={1}>
 
-                    <PostReview type="movie" />
+                    <PostReview type="people" />
                     {/*  <Typography> post reviews and review list gose here</Typography>
                    <ReviewList type="movie" />*/}
                 </Box>
