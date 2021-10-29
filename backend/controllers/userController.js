@@ -135,7 +135,7 @@ export const deleteUserbyId = async (req, res) => {
         const deleteduser = await User.findByIdAndRemove(id);
         res.status(200).json({ message: "User deleted successfully", deleteduser });
     } else{
-        res.status(401).json({ message: "Cannot delete other accounts"});
+        res.status(403).json({ message: "Cannot delete other accounts"});
     }
     
 };
@@ -144,25 +144,57 @@ export const updateUserbyId = async (req, res) => {
 
     console.log(`PATCH : UpdateUserbyId`);
 
-    const { id } = req.params;
-    const { firstName, lastName, email, role, joinDate, password } = req.body;
-
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-        return res.status(404).json({ message: `No user with id: ${id}` });
+    if (!req.userId) {
+        return res.json({ message: "Unauthenticated" });
     }
 
-    const updatedUser = {
-        _id: id,
-        firstName,
-        lastName,
-        email,
-        role,
-        joinDate,
-        password
-    };
+    const { id } = req.params;
+    const { firstName, lastName, email, role, joinDate, oldPassword, newPassword } = req.body;
 
-    const updateduser = await User.findByIdAndUpdate(id, updatedUser, { new: true });
+    try {
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(404).json({ message: `No user with id: ${id}` });
+        }
+    
+        const existingUser = await User.findById(id);
+        
+    
+        if (existingUser._id != req.userId) {
+            return res.status(403).json({ message: "Cannot update other accounts"});
+        } 
+    
+        const updateUserData = {
+            _id: id,
+            firstName,
+            lastName,
+            email,
+            role,
+            joinDate
+        };
+    
+        const resMsg ={};
 
-    res.status(200).json(updateduser);
+        if (oldPassword && newPassword) {
+            
+            const isPasswordCorrect = await bcrypt.compare(oldPassword, existingUser.password);
+    
+            if (!isPasswordCorrect) {
+                return res.status(400).json({ message: "Inavalid credentials" });
+            }
+    
+            const hashedPassword = await bcrypt.hash(newPassword, 12);
+            updateUserData.password = hashedPassword;
+            
+            resMsg.pswdAck =" Password updated successfully";
+        }
+         
+        const updateduser = await User.findByIdAndUpdate(id, updateUserData, { new: true });
+        resMsg.message = "User updated successfully";
+        res.status(200).json({ resMsg, updateduser });
 
+
+    } catch (error) {
+        res.status(409).json({ message: "server error" });
+    }
+    
 };
