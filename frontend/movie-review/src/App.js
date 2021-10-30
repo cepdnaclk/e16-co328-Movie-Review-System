@@ -7,6 +7,7 @@ import Search from "./components/search";
 import Signup from "./components/signup";
 import Signin from "./components/signin";
 import People from "./components/people";
+import Me from "./components/me"; 
 
 function App() {
 
@@ -38,6 +39,10 @@ function App() {
 
           <Route path="/people/:query">
             <People />
+          </Route>
+
+          <Route path="/me">
+            <Me />
           </Route>
 
         </Switch>

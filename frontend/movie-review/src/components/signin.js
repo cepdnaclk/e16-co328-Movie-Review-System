@@ -56,9 +56,10 @@ export default function Signin() {
             )
             .then(response =>  response.json())
             .then(response => {
-                console.log(response);
+                console.log(response.result);
                 alert("Signed In");
                 window.localStorage.setItem("token", response.token);
+                window.localStorage.setItem("user", JSON.stringify(response.result));
                 window.location.href='/'})
             .catch(error => { console.log( error.message); alert('Unsuccess Sign Up\nError: ' + error.message); });
 

@@ -1,7 +1,8 @@
 import { React, useState } from 'react';
 import { alpha, makeStyles } from '@material-ui/core/styles';
-import { AppBar, Toolbar, Button, InputBase, Typography, Link } from '@material-ui/core/';
+import { AppBar, Toolbar, Button, InputBase, Typography, Link, Avatar } from '@material-ui/core/';
 import SearchIcon from '@material-ui/icons/Search';
+import PersonIcon from '@material-ui/icons/Person';
 
 
 const useStyle = makeStyles((theme) => ({
@@ -86,16 +87,20 @@ const useStyle = makeStyles((theme) => ({
     },
 }));
 
+
 export default function SearchAppBar() {
     const classes = useStyle();
     const [value, setValue] = useState(0);
+    var isLoggedIn = window.localStorage.getItem("token")?true:false;
 
+    
     function search(e) {
         if (e.keyCode === 13) window.location.href = "/search/" + value
     }
 
 
     return (
+        console.log(isLoggedIn),
         <div className={classes.header}>
             <AppBar position='static' className={classes.bar}>
                 <Toolbar>
@@ -120,9 +125,11 @@ export default function SearchAppBar() {
                             onKeyDown={search}
                         />
                     </div>
-                    <Link href="/signup">
-                        <Button variant="contained" className={classes.login} >Log In</Button>
-                    </Link>
+
+                    {isLoggedIn?
+                    <Link href="/me"><Avatar className={classes.login}><PersonIcon /></Avatar></Link>
+                     :<Link href="/signup"><Button variant="contained" className={classes.login} >Log In</Button></Link>}
+                    
                 </Toolbar>
             </AppBar>
         </div>
