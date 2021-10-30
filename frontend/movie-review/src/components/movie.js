@@ -90,7 +90,7 @@ export default function Movie() {
 
 
     return (
-        console.log(cast),
+        
         <div className={classes.container}>
             <Box display="flex" className={classes.box} justifyContent="flex-start">
                 <Box p={1}>
