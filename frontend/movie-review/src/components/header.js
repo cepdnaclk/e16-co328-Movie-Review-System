@@ -100,6 +100,7 @@ export default function SearchAppBar() {
 
 
     return (
+        
         console.log(isLoggedIn),
         <div className={classes.header}>
             <AppBar position='static' className={classes.bar}>

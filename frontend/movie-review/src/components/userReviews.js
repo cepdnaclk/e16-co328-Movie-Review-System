@@ -1,53 +1,85 @@
-import {React, useEffect, useState} from "react";
+import { React, useEffect, useState } from "react";
 import { makeStyles } from '@material-ui/core/styles';
 import { baseUrl } from "../shared/baseUrl";
+import { Typography, Link, List, ListItem, Button} from '@material-ui/core';
+import Rating from '@material-ui/lab/Rating';
 
 const useStyles = makeStyles((theme) => ({
     list: {
-      background: '#121212',
-      color: 'white',
-      margin: 30,
-      [theme.breakpoints.down('xs')]: {
-        marginLeft: 10
-      }
+        background: '#122640',
+        color: '#AEB5BF',
+        margin: 30,
+        [theme.breakpoints.down('xs')]: {
+            marginLeft: 10
+        }
     },
     heading: {
-      fontSize: 30,
-      color: "white",
-      margin: 45
+        fontSize: 30,
+        color: "#AEB5BF",
+        margin: 45
     },
     text: {
-      fontSize: 20,
-      margin: 15,
-      color: "white"
+        fontSize: 20,
+        margin: 15,
+        color: "#AEB5BF"
     },
     poster: {
-      maxWidth: 50
+        maxWidth: 50
     },
     box: {
-      fontSize: 20,
-      margin: 15,
-      [theme.breakpoints.down('xs')]: {
-        display: "none"
-      }
+        fontSize: 20,
+        margin: 15,
+        [theme.breakpoints.down('xs')]: {
+            display: "none"
+        }
     },
     link: {
-      textDecoration: "none"
-    }
-  }));
+        textDecoration: "none"
+    },
+    btn: {
+        margin: 20,
+        fontWeight: "bolder",
+        [theme.breakpoints.down('sm')]: {
+            padding: 5,
+        },
+        background: "#164773",
+        color: '#AEB7BF'
+    },
+}));
 
-export default function UserReviewList (props){
-    const [movies, setMovies] = useState(0);
+export default function UserReviewList(props) {
+    const [movieReviews, setMovieRevies] = useState(0);
+    
     const classes = useStyles();
 
     useEffect(() => {
-        fetch(baseUrl + "movie-review/" +  JSON.parse(window.localStorage.getItem("user"))._id + "/list" ,{headers: {Authorization: 'Bearer ' + window.localStorage.getItem("token")}})
-        .then(response => response.json())
-        .then(response => setMovies(response))
-        .catch(() => window.location.href="/");
-      },[])
+        fetch(baseUrl + "movie-review/" + JSON.parse(window.localStorage.getItem("user"))._id + "/list",
+            {
+                headers: { 'Authorization': 'Bearer ' + window.localStorage.getItem("token") }
+            })
+            .then(response => response.json())
+            .then(response => setMovieRevies(response))
+            .catch(() => window.location.href = "/");
 
-      return(
-          <div>Movie Reviews</div>
-      );
+        
+
+    }, [])
+
+    return (
+        
+        <div>
+            <Typography className={classes.heading}>Movie Reviews:</Typography>
+            <List component="nav" className={classes.list}>
+                {movieReviews ? movieReviews.map(review => ( 
+                    <ListItem button>
+                         <Typography className={classes.text}>{review.content}</Typography>
+                         <Typography className={classes.box}><Rating name= "rating" readOnly value={parseInt(review.rating)} /></Typography>
+                          <Link href= {"/movie/" + review.movieId} className={classes.link} >
+                          <Button className={classes.btn}>Movie Details</Button>
+                          </Link> 
+                    </ListItem>
+                ) ) : "" }
+            </List>
+        </div>
+    );
 }
