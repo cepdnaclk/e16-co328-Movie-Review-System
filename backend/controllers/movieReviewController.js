@@ -23,7 +23,6 @@ export const createReview = async (req, res) => {
   } catch (error) {
     res.status(409).json({ message: error.message });
   }
-  console.log(newReview);
 };
 
 export const getAllReviewbyMovieId = async (req, res) => {
