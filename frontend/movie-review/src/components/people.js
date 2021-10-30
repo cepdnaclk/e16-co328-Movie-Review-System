@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography, Box, List, Link } from "@material-ui/core";
 import PostReview from "./postReview";
-import ReviewList from "./reviewList";
+//import ReviewList from "./reviewList";
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -113,7 +113,7 @@ export default function People() {
                 <Box p={1}>
 
                     <PostReview type="people" />
-                   <ReviewList type="people" />
+                   {/*<ReviewList type="people" />*/}
                 </Box>
             </Box>
         </div>

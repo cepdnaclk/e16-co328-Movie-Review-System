@@ -23,12 +23,6 @@ const useStyles = makeStyles((theme) => ({
         margin: 15,
         color: "#AEB5BF"
     },
-    poster: {
-        maxWidth: 50
-    },
-    avatar: {
-        margin: 25
-    },
     box: {
         fontSize: 20,
         margin: 15,
@@ -45,32 +39,83 @@ function toDate(date) {
 export default function ReviewList(props) {
     const classes = useStyles();
     const [reviews, setReviews] = useState(0);
+    //const [movieReviews, setMovieReviews] = useState(0);
+    //const [castReviews, setCastReviews] = useState(0);
+    const [ex1, setEx1] = useState(false);
+    const [ex2, setEx2] = useState(false);
 
-    if (props.type === "movie") {
 
-        fetch(baseUrl + "movie-review/" + window.location.pathname.substring(7),
-            {
-                headers: { 'Authorization': 'Bearer ' + window.localStorage.getItem("token") }
-            })
+    var token = window.localStorage.getItem("token");
+
+
+    if ((props.type === "movie") && token) {
+
+        if (!ex1) {
+            fetch(baseUrl + "movie-review/" + window.location.pathname.substring(7),
+                {
+                    headers: { 'Authorization': 'Bearer ' + token }
+                })
+            .then(response => {
+                if (response.ok) {
+                    setEx1(true);
+                    return response;
+
+                } else {
+                    setEx1(true);
+                    var error = new Error('error ' + response.status + ':' + response.statusText);
+                    error.response = response;
+                    throw error;
+                }
+            },
+                error => {
+                    throw error;
+                })
             .then(response => response.json())
             .then(response => setReviews(response))
-            .catch()
+            .catch(error => { console.log(error) });
+        }
 
-    } else if (props.type === "people") {
-        fetch(baseUrl + "cast-review/" + window.location.pathname.substring(8),
-            {
-                headers: { 'Authorization': 'Bearer ' + window.localStorage.getItem("token") }
-            })
-            .then(response => response.json())
-            .then(response => setReviews(response))
-            .catch();
+
     }
+    if ((props.type === "people") && token) {
+
+        if (!ex2) {
+            fetch(baseUrl + "cast-review/" + window.location.pathname.substring(8),
+                {
+                    headers: { 'Authorization': 'Bearer ' + token }
+                })
+                .then(response => {
+                    if (response.ok) {
+                        setEx2(true);
+                        return response;
+                    } else {
+                        setEx2(true);
+                        var error = new Error('error ' + response.status + ':' + response.statusText);
+                        error.response = response;
+                        throw error;
+                    }
+                },
+                    error => {
+                        throw error;
+                    })
+                .then(response => response.json())
+                .then(response => setReviews(response))
+                .catch(error => { console.log(error) });
+        }
+
+    }
+
+    console.log("EX1: " + ex1);
+    console.log("EX2: " + ex2);
+
 
     return (
 
         <div>
             <Typography className={classes.heading}>Reviews</Typography>
+
             <List component="nav" className={classes.list}>
+                <Typography className={classes.text}>{token ? "" : "Please Log in to View Reviews . . ."}</Typography>
                 {reviews ? reviews.map(review => (
                     <ListItem button>
                         <Typography className={classes.text}>{review.content}</Typography>
