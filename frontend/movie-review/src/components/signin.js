@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Avatar, Button, TextField, Grid, Box, Typography, Container, CssBaseline, } from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { makeStyles } from '@material-ui/core/styles';
-//import { baseUrl } from '../shared/baseUrl';
+import { baseUrl } from '../shared/baseUrl';
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -25,14 +25,44 @@ export default function Signin() {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
         // eslint-disable-next-line no-console
-        const User = {
-            firstName: data.get('firstName'),
-            lastName: data.get('lastName'),
+        const user = {
             email: data.get('email'),
             password: data.get('password'),
-
         }
-        console.log(JSON.stringify(User));
+
+        console.log("req body: "+ JSON.stringify(user));
+
+
+        fetch(baseUrl + "users/signin", {
+            method: "POST",
+            body: JSON.stringify(user),
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+        })
+            .then(response => {
+                if (response.ok) {
+                    return response;
+                } else {
+                    var error = new Error('Error ' + response.status + ': ' + response.statusText);
+                    error.response = response;
+                    throw error;
+                }
+            },
+                error => {
+                    throw error;
+                }
+            )
+            .then(response =>  response.json())
+            .then(response => {
+                console.log(response);
+                alert("Signed In");
+                window.localStorage.setItem("token", response.token);
+                window.location.href='/'})
+            .catch(error => { console.log( error.message); alert('Unsuccess Sign Up\nError: ' + error.message); });
+
+
 
 
 
