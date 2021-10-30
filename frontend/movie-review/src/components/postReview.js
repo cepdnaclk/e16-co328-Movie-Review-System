@@ -1,7 +1,7 @@
 import { React, useState } from "react";
 import { makeStyles } from '@material-ui/core/styles';
-import { Typography, TextareaAutosize, Button} from '@material-ui/core';
-import {Rating, } from '@material-ui/lab';
+import { Typography, TextareaAutosize, Button } from '@material-ui/core';
+import { Rating, } from '@material-ui/lab';
 import { baseUrl } from "../shared/baseUrl";
 
 const useStyles = makeStyles((theme) => ({
@@ -47,37 +47,52 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function postReview(rating, review, type) {
-    var movieId = window.location.pathname.substring(7);
+    var id;
     var authorId = (JSON.parse(window.localStorage.getItem("user")))._id
     var token = window.localStorage.getItem("token");
     var newReview;
 
-    if (type === 'movie') {
+    if (type === "movie") {
+        id = window.location.pathname.substring(7);
         newReview = {
             authorId: authorId,
             content: review,
             rating: rating
         };
-        console.log(movieId);
-        fetch(baseUrl + "movie-review/" + movieId, {
+
+
+        fetch(baseUrl + "movie-review/" + id, {
             method: "POST",
             body: JSON.stringify(newReview),
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + token
+                'Authorization': 'Bearer ' + token,
+            }
+        })
+
+            .then(alert("Your Review Posted"))
+            .catch();
+    }
+    else if (type === "people") {
+        id = window.location.pathname.substring(8)
+
+        newReview = {
+            authorId: authorId,
+            content: review,
+            rating: rating
+        }
+
+        fetch(baseUrl + "cast-review/" + id, {
+            method: "POST",
+            body: JSON.stringify(newReview),
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token,
             }
         })
             .then(response => console.log(response))
             .then(alert("Your Review Posted"))
             .catch();
-    }
-    else if (type === 'people') {
-        newReview = {
-
-            authorId: "17889c734aa50a7a7d34928",
-            content: review,
-            rating: rating
-        }
     }
 }
 
