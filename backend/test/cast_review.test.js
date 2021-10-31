@@ -101,7 +101,7 @@ describe("/Cast Review routes Test", () => {
     it("A specific Cast review posted by a specific user is able to be updated separately.", (done) => {
       let update_cast_review = {
         personId: process.env.PERSON_ID,
-        content: "Leonardo DiCaprio is a Fantastic actor.",
+        content: "He is a Fantastic actor.",
         rating: 5,
       };
 
@@ -128,7 +128,9 @@ describe("/Cast Review routes Test", () => {
 
       chai
         .request(server)
-        .patch(`/cast-review/${process.env.USER_ID}/456`)
+        .patch(
+          `/cast-review/${process.env.USER_ID}/${process.env.INVALID_CAST_REVIEW_ID}`
+        )
         .set({
           Authorization: `Bearer ${process.env.USER_TOKEN}`,
         })
@@ -137,7 +139,9 @@ describe("/Cast Review routes Test", () => {
           response.should.have.status(404);
           response.body.should.be.a("object");
           const actualMsg = response.body.message;
-          expect(actualMsg).to.be.equal("No cast review with id: 456");
+          expect(actualMsg).to.be.equal(
+            `No cast review with id: ${process.env.INVALID_CAST_REVIEW_ID}`
+          );
           done();
         });
     });
