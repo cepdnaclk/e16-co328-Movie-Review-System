@@ -12,150 +12,156 @@ var castReviewId = "";
 
 describe("/Cast Review routes Test", () => {
   /**
-   * Testing POST valid Cast Review route
+   * Testing POST Cast Review
    */
-  it("Test POST Cast Review: Creating a valid Cast Review", (done) => {
-    let cast_review = {
-      authorId: process.env.USER_ID,
-      content: "The best actor I've ever seen",
-      rating: 4,
-    };
+  describe("/Test POST: Cast reviews", () => {
+    it("Test POST Cast Review: Creating a valid Cast Review", (done) => {
+      let cast_review = {
+        authorId: process.env.USER_ID,
+        content: "The best actor I've ever seen",
+        rating: 4,
+      };
 
-    chai
-      .request(server)
-      .post(`/cast-review/${process.env.PERSON_ID}`)
-      .set({
-        Authorization: `Bearer ${process.env.USER_TOKEN}`,
-      })
-      .send(cast_review)
-      .end((err, response) => {
-        response.should.have.status(201);
-        response.body.should.be.a("object");
-        castReviewId = response.body._id;
-        done();
-      });
+      chai
+        .request(server)
+        .post(`/cast-review/${process.env.PERSON_ID}`)
+        .set({
+          Authorization: `Bearer ${process.env.USER_TOKEN}`,
+        })
+        .send(cast_review)
+        .end((err, response) => {
+          response.should.have.status(201);
+          response.body.should.be.a("object");
+          castReviewId = response.body._id;
+          done();
+        });
+    });
   });
 
   /**
-   * Testing GET all Cast reviews by personId route
+   * Testing GET Cast Reviews
    */
-  it("Test GET Cast Reviews by personId: Verify we have 1 cast review initially", (done) => {
-    chai
-      .request(server)
-      .get(`/cast-review/${process.env.PERSON_ID}`)
-      .set({
-        Authorization: `Bearer ${process.env.USER_TOKEN}`,
-      })
-      .end((err, response) => {
-        response.should.have.status(200);
-        response.body.should.be.a("array");
-        response.body.length.should.be.eql(1);
-        done();
-      });
+  describe("/Test GET: All Movie Reviews", () => {
+    it("Cast reviews related to a specific person are able to be fetched separately. We get only 1 Cast Review", (done) => {
+      chai
+        .request(server)
+        .get(`/cast-review/${process.env.PERSON_ID}`)
+        .set({
+          Authorization: `Bearer ${process.env.USER_TOKEN}`,
+        })
+        .end((err, response) => {
+          response.should.have.status(200);
+          response.body.should.be.a("array");
+          response.body.length.should.be.eql(1);
+          done();
+        });
+    });
+
+    it("Cast reviews posted by a specific user are able to be fetched separately. We get only 1 Cast Review", (done) => {
+      chai
+        .request(server)
+        .get(`/cast-review/${process.env.USER_ID}/list`)
+        .set({
+          Authorization: `Bearer ${process.env.USER_TOKEN}`,
+        })
+        .end((err, response) => {
+          response.should.have.status(200);
+          response.body.should.be.a("array");
+          response.body.length.should.be.eql(1);
+          done();
+        });
+    });
   });
 
   /**
-   * Testing GET all Cast reviews by userId route
+   * Testing GET Cast Review
    */
-  it("Test GET Cast Reviews by userId: Verify we have 1 cast review initially", (done) => {
-    chai
-      .request(server)
-      .get(`/cast-review/${process.env.USER_ID}/list`)
-      .set({
-        Authorization: `Bearer ${process.env.USER_TOKEN}`,
-      })
-      .end((err, response) => {
-        response.should.have.status(200);
-        response.body.should.be.a("array");
-        response.body.length.should.be.eql(1);
-        done();
-      });
+
+  describe("/Test GET: A Cast Review", () => {
+    it("A specific Cast review posted by a specific user are able to be fetched separately. We get only 1 Cast Review", (done) => {
+      chai
+        .request(server)
+        .get(`/cast-review/${process.env.USER_ID}/${castReviewId}`)
+        .set({
+          Authorization: `Bearer ${process.env.USER_TOKEN}`,
+        })
+        .end((err, response) => {
+          response.should.have.status(200);
+          //response.body.should.be.a("object");
+          response.body.length.should.be.eql(1);
+          done();
+        });
+    });
   });
 
   /**
-   * Testing GET Cast review by userId and castReviewId route
+   * Testing UPDATE Cast Review
    */
-  it("Test GET Cast Review by userId and castReviewId: Verify we only get 1 cast review", (done) => {
-    chai
-      .request(server)
-      .get(`/cast-review/${process.env.USER_ID}/${castReviewId}`)
-      .set({
-        Authorization: `Bearer ${process.env.USER_TOKEN}`,
-      })
-      .end((err, response) => {
-        response.should.have.status(200);
-        //response.body.should.be.a("object");
-        response.body.length.should.be.eql(1);
-        done();
-      });
+  describe("/Test UPDATE: A Cast Review", () => {
+    it("A specific Cast review posted by a specific user is able to be updated separately.", (done) => {
+      let update_cast_review = {
+        personId: process.env.PERSON_ID,
+        content: "Leonardo DiCaprio is a Fantastic actor.",
+        rating: 5,
+      };
+
+      chai
+        .request(server)
+        .patch(`/cast-review/${process.env.USER_ID}/${castReviewId}`)
+        .set({
+          Authorization: `Bearer ${process.env.USER_TOKEN}`,
+        })
+        .send(update_cast_review)
+        .end((err, response) => {
+          response.should.have.status(200);
+          response.body.should.be.a("object");
+          done();
+        });
+    });
+
+    it("An unavailable Cast review is not able to be updated.", (done) => {
+      let update_cast_review = {
+        personId: process.env.PERSON_ID,
+        content: "Awesome actor.",
+        rating: 3,
+      };
+
+      chai
+        .request(server)
+        .patch(`/cast-review/${process.env.USER_ID}/456`)
+        .set({
+          Authorization: `Bearer ${process.env.USER_TOKEN}`,
+        })
+        .send(update_cast_review)
+        .end((err, response) => {
+          response.should.have.status(404);
+          response.body.should.be.a("object");
+          const actualMsg = response.body.message;
+          expect(actualMsg).to.be.equal("No cast review with id: 456");
+          done();
+        });
+    });
   });
 
   /**
-   * Testing UPDATE Cast review by castReviewId route
+   * Testing DELETE Cast Review
    */
-  it("Test UPDATE Cast review by castReviewId", (done) => {
-    let update_cast_review = {
-      personId: process.env.PERSON_ID,
-      content: "Leonardo DiCaprio is a Fantastic actor.",
-      rating: 5,
-    };
 
-    chai
-      .request(server)
-      .patch(`/cast-review/${process.env.USER_ID}/${castReviewId}`)
-      .set({
-        Authorization: `Bearer ${process.env.USER_TOKEN}`,
-      })
-      .send(update_cast_review)
-      .end((err, response) => {
-        response.should.have.status(200);
-        response.body.should.be.a("object");
-        done();
-      });
-  });
-
-  /**
-   * Testing UPDATE Cast review by invalid castReviewId route
-   */
-  it("Test UPDATE Cast review by invalid castReviewId", (done) => {
-    let update_cast_review = {
-      personId: process.env.PERSON_ID,
-      content: "Awesome actor.",
-      rating: 3,
-    };
-
-    chai
-      .request(server)
-      .patch(`/cast-review/${process.env.USER_ID}/456`)
-      .set({
-        Authorization: `Bearer ${process.env.USER_TOKEN}`,
-      })
-      .send(update_cast_review)
-      .end((err, response) => {
-        response.should.have.status(404);
-        response.body.should.be.a("object");
-        const actualMsg = response.body.message;
-        expect(actualMsg).to.be.equal("No cast review with id: 456");
-        done();
-      });
-  });
-
-  /**
-   * Testing DELETE Cast review by castReviewId route
-   */
-  it("Test DELETE Cast review by castReviewId", (done) => {
-    chai
-      .request(server)
-      .delete(`/cast-review/${process.env.USER_ID}/${castReviewId}`)
-      .set({
-        Authorization: `Bearer ${process.env.USER_TOKEN}`,
-      })
-      .end((err, response) => {
-        response.should.have.status(200);
-        response.body.should.be.a("object");
-        const actualMsg = response.body.message;
-        expect(actualMsg).to.be.equal("Cast Review deleted successfully");
-        done();
-      });
+  describe("/Test DELETE: A Cast Review", () => {
+    it("An available Cast review is able to be deleted", (done) => {
+      chai
+        .request(server)
+        .delete(`/cast-review/${process.env.USER_ID}/${castReviewId}`)
+        .set({
+          Authorization: `Bearer ${process.env.USER_TOKEN}`,
+        })
+        .end((err, response) => {
+          response.should.have.status(200);
+          response.body.should.be.a("object");
+          const actualMsg = response.body.message;
+          expect(actualMsg).to.be.equal("Cast Review deleted successfully");
+          done();
+        });
+    });
   });
 });
