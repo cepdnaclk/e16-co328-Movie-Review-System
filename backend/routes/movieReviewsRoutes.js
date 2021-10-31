@@ -14,7 +14,7 @@ import {
 const router = express.Router();
 
 router.post("/:movieId", auth, createReview);
-router.get("/:movieId", auth, getAllReviewbyMovieId);
+router.get("/:movieId", getAllReviewbyMovieId);
 
 router.get("/:userId/list", auth, getAllReviewbyUserId);
 router.get("/:userId/:reviewId", auth, getReviewbyUserId);
