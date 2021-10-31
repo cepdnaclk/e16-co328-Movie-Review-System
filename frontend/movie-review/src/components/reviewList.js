@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React, useEffect, useState } from "react";
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography, List, ListItem } from "@material-ui/core";
 import Rating from '@material-ui/lab/Rating';
@@ -41,27 +41,22 @@ export default function ReviewList(props) {
     const [reviews, setReviews] = useState(0);
     //const [movieReviews, setMovieReviews] = useState(0);
     //const [castReviews, setCastReviews] = useState(0);
-    const [ex1, setEx1] = useState(false);
-    const [ex2, setEx2] = useState(false);
+    //const [ex1, setEx1] = useState(false);
+    //const [ex2, setEx2] = useState(false);
 
 
-    var token = window.localStorage.getItem("token");
-
-
-    if ((props.type === "movie") && token) {
-
-        if (!ex1) {
-            fetch(baseUrl + "movie-review/" + window.location.pathname.substring(7),
-                {
-                    headers: { 'Authorization': 'Bearer ' + token }
-                })
+    useEffect(() => {
+        fetch(baseUrl + "movie-review/" + window.location.pathname.substring(7),
+            {
+                headers: { 'Content-Type': 'application/json ' }
+            })
             .then(response => {
                 if (response.ok) {
-                    setEx1(true);
+
                     return response;
 
                 } else {
-                    setEx1(true);
+
                     var error = new Error('error ' + response.status + ':' + response.statusText);
                     error.response = response;
                     throw error;
@@ -73,41 +68,32 @@ export default function ReviewList(props) {
             .then(response => response.json())
             .then(response => setReviews(response))
             .catch(error => { console.log(error) });
-        }
 
 
-    }
-    if ((props.type === "people") && token) {
+        fetch(baseUrl + "cast-review/" + window.location.pathname.substring(8),
+            {
+                headers: { 'Content-Type': 'application/json ' }
+            })
+            .then(response => {
+                if (response.ok) {
 
-        if (!ex2) {
-            fetch(baseUrl + "cast-review/" + window.location.pathname.substring(8),
-                {
-                    headers: { 'Authorization': 'Bearer ' + token }
+                    return response;
+                } else {
+
+                    var error = new Error('error ' + response.status + ':' + response.statusText);
+                    error.response = response;
+                    throw error;
+                }
+            },
+                error => {
+                    throw error;
                 })
-                .then(response => {
-                    if (response.ok) {
-                        setEx2(true);
-                        return response;
-                    } else {
-                        setEx2(true);
-                        var error = new Error('error ' + response.status + ':' + response.statusText);
-                        error.response = response;
-                        throw error;
-                    }
-                },
-                    error => {
-                        throw error;
-                    })
-                .then(response => response.json())
-                .then(response => setReviews(response))
-                .catch(error => { console.log(error) });
-        }
+            .then(response => response.json())
+            .then(response => setReviews(response))
+            .catch(error => { console.log(error) });
 
-    }
 
-    console.log("EX1: " + ex1);
-    console.log("EX2: " + ex2);
-
+    }, [])
 
     return (
 
@@ -115,7 +101,7 @@ export default function ReviewList(props) {
             <Typography className={classes.heading}>Reviews</Typography>
 
             <List component="nav" className={classes.list}>
-                <Typography className={classes.text}>{token ? "" : "Please Log in to View Reviews . . ."}</Typography>
+
                 {reviews ? reviews.map(review => (
                     <ListItem button>
                         <Typography className={classes.text}>{review.content}</Typography>
