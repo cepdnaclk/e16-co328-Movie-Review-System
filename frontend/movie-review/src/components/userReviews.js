@@ -66,9 +66,6 @@ export default function UserReviewList(props) {
             .then(response => response.json())
             .then(response => setCastRevies(response))
             .catch(() => window.location.href = "/");
-
-
-
     }, [])
 
     return (
