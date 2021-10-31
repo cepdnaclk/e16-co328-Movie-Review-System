@@ -23,9 +23,6 @@ const useStyles = makeStyles((theme) => ({
         margin: 15,
         color: "#AEB5BF"
     },
-    poster: {
-        maxWidth: 50
-    },
     box: {
         fontSize: 20,
         margin: 15,

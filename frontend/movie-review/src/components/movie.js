@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography, Box, List, Link } from "@material-ui/core";
 import PostReview from "./postReview";
+//import ReviewList from "./reviewList";
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -120,8 +121,7 @@ export default function Movie() {
             <Box display="flex" className={classes.box} justifyContent="flex-start">
                 <Box p={1}>
                     <PostReview type="movie" />
-                    {/*  <Typography> post reviews and review list gose here</Typography>
-                   <ReviewList type="movie" />*/}
+                   {/*<ReviewList type="movie" />*/}
                 </Box>
             </Box>
         </div>

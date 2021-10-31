@@ -56,6 +56,7 @@ const useStyles = makeStyles((theme) => ({
       },[]) 
 
       return (
+        
         <div className={classes.container}>
         <CircularProgress style={{ display: movies?"none":"block", margin: "20px auto" }} />
         { movies?movies.map(movie =>
