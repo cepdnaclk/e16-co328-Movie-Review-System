@@ -131,7 +131,9 @@ describe("/Movie Review routes Test", () => {
 
       chai
         .request(server)
-        .patch(`/movie-review/${process.env.USER_ID}/123`)
+        .patch(
+          `/movie-review/${process.env.USER_ID}/${process.env.INVALID_MOVIE_REVIEW_ID}`
+        )
         .set({
           Authorization: `Bearer ${process.env.USER_TOKEN}`,
         })
@@ -140,7 +142,9 @@ describe("/Movie Review routes Test", () => {
           response.should.have.status(404);
           response.body.should.be.a("object");
           const actualMsg = response.body.message;
-          expect(actualMsg).to.be.equal("No review with id: 123");
+          expect(actualMsg).to.be.equal(
+            `No review with id: ${process.env.INVALID_MOVIE_REVIEW_ID}`
+          );
           done();
         });
     });

@@ -37,10 +37,10 @@ describe("/Users routes Test", () => {
   describe("/Test POST: Users SignUp", () => {
     it("User is able to sign up by providing valid input values", (done) => {
       let user = {
-        firstName: "Dilshani",
-        lastName: "Herath",
-        email: "dilshani.herath@gmail.com",
-        password: "dilshani@pw123",
+        firstName: process.env.USER_TEST_FNAME,
+        lastName: process.env.USER_TEST_LNAME,
+        email: process.env.USER_TEST_EMAIL,
+        password: process.env.USER_TEST_PASSWORD,
       };
 
       chai
@@ -62,8 +62,8 @@ describe("/Users routes Test", () => {
   describe("/Test POST: Users SignIn", () => {
     it("User is able to sign in by providing valid email and password", (done) => {
       let login_details = {
-        email: "dilshani.herath@gmail.com",
-        password: "dilshani@pw123",
+        email: process.env.USER_TEST_EMAIL,
+        password: process.env.USER_TEST_PASSWORD,
       };
 
       chai
@@ -82,8 +82,8 @@ describe("/Users routes Test", () => {
 
     it("User is not able to sign in by providing invalid email and password", (done) => {
       let login_details = {
-        email: "dilshani.herath@gmail.com",
-        password: "neth@pw123",
+        email: process.env.USER_TEST_EMAIL,
+        password: process.env.USER_TEST_WRONGPASSWORD,
       };
 
       chai
@@ -101,8 +101,8 @@ describe("/Users routes Test", () => {
 
     it("Already Registered User is able to sign in by providing valid email and password", (done) => {
       let login_details = {
-        email: process.env.USER_EMAIL,
-        password: process.env.USER_PASSWORD,
+        email: process.env.OLD_USER_EMAIL,
+        password: process.env.OLD_USER_PASSWORD,
       };
 
       chai
@@ -148,11 +148,11 @@ describe("/Users routes Test", () => {
   describe("/Test UPDATE: Users", () => {
     it("User provide unmatching old and new passwords. Successfully update his/her password", (done) => {
       let update_user = {
-        firstName: "Dilshani",
-        lastName: "Herath",
-        email: "dilshani.herath@gmail.com",
-        oldPassword: "dilshani@pw123",
-        newPassword: "herath@pw123",
+        firstName: process.env.USER_TEST_FNAME,
+        lastName: process.env.USER_TEST_LNAME,
+        email: process.env.USER_TEST_EMAIL,
+        oldPassword: process.env.USER_TEST_PASSWORD,
+        newPassword: process.env.USER_TEST_NEWPASSWORD,
       };
 
       chai
@@ -173,11 +173,11 @@ describe("/Users routes Test", () => {
 
     it("User not provide matching old and new passwords. Update is unsuccessful. ", (done) => {
       let update_user = {
-        firstName: "Dilshani",
-        lastName: "Herath",
-        email: "dilshani.herath@gmail.com",
-        oldPassword: "dilshani@pw123",
-        newPassword: "dilshani@pw123",
+        firstName: process.env.USER_TEST_FNAME,
+        lastName: process.env.USER_TEST_LNAME,
+        email: process.env.USER_TEST_EMAIL,
+        oldPassword: process.env.USER_TEST_PASSWORD,
+        newPassword: process.env.USER_TEST_PASSWORD,
       };
 
       chai
@@ -221,7 +221,7 @@ describe("/Users routes Test", () => {
     it("User is a unregistered user. Delete user unsuccessfull.", (done) => {
       chai
         .request(server)
-        .delete(`/users/234`)
+        .delete(`/users/${process.env.USER_ID_INVALID}`)
         .set({
           Authorization: `Bearer ${token}`,
         })
@@ -229,7 +229,9 @@ describe("/Users routes Test", () => {
           response.should.have.status(404);
           response.body.should.be.a("object");
           const actualMsg = response.body.message;
-          expect(actualMsg).to.be.equal("No user with id: 234");
+          expect(actualMsg).to.be.equal(
+            `No user with id: ${process.env.USER_ID_INVALID}`
+          );
           done();
         });
     });
